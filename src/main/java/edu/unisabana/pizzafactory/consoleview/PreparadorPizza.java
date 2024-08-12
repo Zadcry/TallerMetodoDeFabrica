@@ -1,12 +1,19 @@
 
 package edu.unisabana.pizzafactory.consoleview;
 
-import edu.unisabana.pizzafactory.model.AmasadorPizzaDelgada;
+
+import edu.unisabana.pizzafactory.factories.FabricaPizzaIntegral;
 import edu.unisabana.pizzafactory.model.ExcepcionParametrosInvalidos;
-import edu.unisabana.pizzafactory.model.HorneadorPizzaDelgada;
 import edu.unisabana.pizzafactory.model.Ingrediente;
-import edu.unisabana.pizzafactory.model.MoldeadorPizzaDelgada;
 import edu.unisabana.pizzafactory.model.Tamano;
+import edu.unisabana.pizzafactory.factories.FabricaPizza;
+import edu.unisabana.pizzafactory.factories.FabricaPizzaDelgada;
+
+import edu.unisabana.pizzafactory.processes.Amasador;
+import edu.unisabana.pizzafactory.processes.Horneador;
+import edu.unisabana.pizzafactory.processes.Moldeador;
+
+
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,8 +27,9 @@ public class PreparadorPizza {
     public static void main(String args[]){
         try {
             Ingrediente[] ingredientes=new Ingrediente[]{new Ingrediente("queso",1),new Ingrediente("jamon",2)};            
-            PreparadorPizza pp=new PreparadorPizza();            
-            pp.prepararPizza(ingredientes, Tamano.MEDIANO);
+            PreparadorPizza pp=new PreparadorPizza();
+            FabricaPizza fabrica=new FabricaPizzaIntegral();
+            pp.prepararPizza(ingredientes, Tamano.PEQUENO, fabrica);
         } catch (ExcepcionParametrosInvalidos ex) {
             Logger.getLogger(PreparadorPizza.class.getName()).log(Level.SEVERE, "Problema en la preparacion de la Pizza", ex);
         }
@@ -29,21 +37,22 @@ public class PreparadorPizza {
     }
     
     
-    public void prepararPizza(Ingrediente[] ingredientes, Tamano tam)
+    public void prepararPizza(Ingrediente[] ingredientes, Tamano tam, FabricaPizza fabrica)
             throws ExcepcionParametrosInvalidos {
-        AmasadorPizzaDelgada am = new AmasadorPizzaDelgada();
-        HorneadorPizzaDelgada hpd = new HorneadorPizzaDelgada();
-        MoldeadorPizzaDelgada mp = new MoldeadorPizzaDelgada();
+        Amasador am = fabrica.crearAmasador();
+        Horneador hor = fabrica.crearHorneador();
+        Moldeador mol = fabrica.crearMoldeador();
         am.amasar();
+
         if (tam == Tamano.PEQUENO) {
-            mp.moldearPizzaPequena();
+            mol.moldearPizzaPequena();
         } else if (tam == Tamano.MEDIANO) {
-            mp.molderarPizzaMediana();
+            mol.moldearPizzaMediana();
         } else {
             throw new ExcepcionParametrosInvalidos("Tamano de piza invalido:"+tam);
         }
 	aplicarIngredientes(ingredientes);
-        hpd.hornear();
+        hor.hornear();
     }
 
     private void aplicarIngredientes(Ingrediente[] ingredientes) {
