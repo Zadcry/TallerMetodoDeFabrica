@@ -16,6 +16,9 @@ public abstract class AbstractBullet implements IBulletRender {
         this.y = y;
     }
 
+    protected AbstractBullet() {
+    }
+
     public void tick() {
         y -= 5;
     }

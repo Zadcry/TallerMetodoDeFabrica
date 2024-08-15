@@ -1,9 +1,11 @@
 package com.balitechy.spacewar.main;
 
+import com.balitechy.spacewar.main.models.abstractModels.AbstractBullet;
+
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-public class Bullet {
+public class Bullet extends AbstractBullet {
 	
 	private double x;
 	private double y;
@@ -12,7 +14,7 @@ public class Bullet {
 	private BufferedImage image;
 	
 	public Bullet(double x, double y, Game game){
-		this.x = x;
+        this.x = x;
 		this.y = y;
 		image = game.getSprites().getImage(35, 52, WIDTH, HEIGHT);
 	}
@@ -27,5 +29,10 @@ public class Bullet {
 	
 	public double getY(){
 		return y;
+	}
+
+	@Override
+	public void renderBullet(Graphics g) {
+
 	}
 }
