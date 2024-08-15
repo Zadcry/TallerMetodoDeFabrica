@@ -3,6 +3,7 @@ package com.balitechy.spacewar.main.controllers;
 import java.awt.Graphics;
 import java.util.LinkedList;
 
+import com.balitechy.spacewar.main.Bullet;
 import com.balitechy.spacewar.main.models.abstractModels.AbstractBullet;
 
 public class ControllerBullet {
@@ -24,7 +25,7 @@ public class ControllerBullet {
 		}
 	}
 
-	public void addBullet(AbstractBullet bullet) {
+	public void addBullet(Bullet bullet) {
 		bl.add(bullet);
 	}
 
